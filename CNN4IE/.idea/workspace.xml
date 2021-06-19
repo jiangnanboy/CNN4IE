@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="74a0a721-b060-4681-81c4-134ff1cf2dc6" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="6f6cc8f3-e05d-41d6-b6b8-39c2685c5637" />
+  </component>
+  <component name="ProjectId" id="1tL47Y7wtdC2hFVVZpKUuG1w1fw" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/cnn4ie/mlrescnn" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\project\pycharm_workspace\CNN4IE\examples\mlrescnn" />
+      <recent name="E:\pycharm project\CNN4IE\data" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\project\pycharm_workspace\CNN4IE\cnn4ie\mlrescnn" />
+      <recent name="D:\project\pycharm_workspace\CNN4IE" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.predict">
+    <configuration name="predict" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="CNN4IE" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/cnn4ie/mlrescnn" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cnn4ie/mlrescnn/predict.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="process_train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="CNN4IE" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data/train" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/train/process_train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="process_val" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="CNN4IE" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data/dev" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/dev/process_val.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.predict" />
+        <item itemvalue="Python.process_val" />
+        <item itemvalue="Python.process_train" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="74a0a721-b060-4681-81c4-134ff1cf2dc6" name="Default Changelist" comment="" />
+      <created>1622534868894</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1622534868894</updated>
+      <workItem from="1622534870181" duration="5027000" />
+      <workItem from="1622593367928" duration="599000" />
+      <workItem from="1622679564390" duration="3464000" />
+      <workItem from="1622766255099" duration="14396000" />
+      <workItem from="1623025165672" duration="20475000" />
+      <workItem from="1623111903409" duration="5049000" />
+      <workItem from="1623199099795" duration="11873000" />
+      <workItem from="1623744019153" duration="4749000" />
+      <workItem from="1623803575908" duration="3137000" />
+      <workItem from="1623811263758" duration="5162000" />
+      <workItem from="1623823063727" duration="36000" />
+      <workItem from="1623890379280" duration="800000" />
+      <workItem from="1623916122882" duration="1059000" />
+      <workItem from="1623984177821" duration="16000" />
+      <workItem from="1623999395488" duration="11075000" />
+      <workItem from="1624011567043" duration="1922000" />
+      <workItem from="1624015627425" duration="1502000" />
+      <workItem from="1624021389756" duration="535000" />
+      <workItem from="1624021945130" duration="271000" />
+      <workItem from="1624022237270" duration="158000" />
+      <workItem from="1624022418097" duration="211000" />
+      <workItem from="1624022656551" duration="197000" />
+      <workItem from="1624022871877" duration="183000" />
+      <workItem from="1624023075278" duration="515000" />
+      <workItem from="1624023612677" duration="491000" />
+      <workItem from="1624024136213" duration="158000" />
+      <workItem from="1624024316614" duration="280000" />
+      <workItem from="1624024621852" duration="248000" />
+      <workItem from="1624024892118" duration="601000" />
+      <workItem from="1624025518447" duration="198000" />
+      <workItem from="1624026444373" duration="92000" />
+      <workItem from="1624064766952" duration="130000" />
+      <workItem from="1624064963631" duration="2596000" />
+      <workItem from="1624067614396" duration="210000" />
+      <workItem from="1624067850582" duration="1471000" />
+      <workItem from="1624069364652" duration="398000" />
+      <workItem from="1624069785051" duration="2222000" />
+      <workItem from="1624072036279" duration="1521000" />
+      <workItem from="1624073868469" duration="3304000" />
+      <workItem from="1624080219989" duration="709000" />
+      <workItem from="1624080968934" duration="990000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="509" y="213" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1623999846838">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="509" y="213" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1623999846838" />
+    <state x="640" y="309" width="255" height="297" key="Github.ShareDialog" timestamp="1624081209645">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="640" y="309" width="255" height="297" key="Github.ShareDialog/0.0.1536.824@0.0.1536.824" timestamp="1624081209645" />
+    <state width="1493" height="297" key="GridCell.Tab.0.bottom" timestamp="1624021929026">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="297" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1624021929026" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1623216033710" />
+    <state width="1493" height="297" key="GridCell.Tab.0.center" timestamp="1624021929026">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="297" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1624021929026" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1623216033710" />
+    <state width="1493" height="297" key="GridCell.Tab.0.left" timestamp="1624021929026">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="297" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1624021929026" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1623216033710" />
+    <state width="1493" height="297" key="GridCell.Tab.0.right" timestamp="1624021929026">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="297" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1624021929026" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1623216033710" />
+    <state x="325" y="113" key="SettingsEditor" timestamp="1624081956921">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="325" y="113" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1624081956921" />
+    <state x="178" y="307" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1623916144695" />
+    <state x="498" y="178" width="672" height="538" key="search.everywhere.popup" timestamp="1624079803974">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="498" y="178" width="672" height="538" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1624079803974" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1623806739105" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/CNN4IE$predict.coverage" NAME="predict Coverage Results" MODIFIED="1624021800960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cnn4ie/mlrescnn" />
+    <SUITE FILE_PATH="coverage/CNN4IE$process_val.coverage" NAME="process_val Coverage Results" MODIFIED="1623215904857" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data/dev" />
+    <SUITE FILE_PATH="coverage/CNN4IE$process_train.coverage" NAME="process_train Coverage Results" MODIFIED="1623215811460" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data/train" />
+  </component>
+</project>

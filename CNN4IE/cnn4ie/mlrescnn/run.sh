@@ -1,0 +1,1 @@
+nohup python -u train.py > model.log 2>&1 &
