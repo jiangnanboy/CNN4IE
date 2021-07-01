@@ -7,6 +7,7 @@ import math
 import os
 from configparser import ConfigParser
 import tqdm
+import numpy as np
 
 from cnn4ie.mlrescnn.model import MultiLayerResCNN
 from dset.get_dataset import build_data_iter
@@ -223,18 +224,20 @@ class Train():
                     for index, i in enumerate(target.tolist()):
                         labels += i[:len(non_zero[index])]
 
-                    # p,r,f1 metrics
-                    report = metrics.classification_report_f_r_f1(labels, preds)
+                    
 
                     # loss
                     loss = model.log_likelihood(source, target)
 
                     epoch_loss += loss.item()
-
+                # p,r,f1 metrics
+                report = metrics.classification_report_f_r_f1(labels, preds)
             return epoch_loss / len(val_iter), report
 
         else:
             with torch.no_grad():
+                labels = np.array([])
+                predicts = np.array([])
                 for batch in tqdm.tqdm(val_iter):
                     source, _ = batch.source
                     target, _ = batch.target
@@ -252,13 +255,14 @@ class Train():
                     prediction = torch.max(F.softmax(out, dim=1), dim=1)[1]
                     pred_y = prediction.cpu().data.numpy().squeeze()
                     target_y = target.cpu().data.numpy()
-                    report = metrics.classification_report_f_r_f1(target_y, pred_y)
+                    labels = np.append(labels, target_y)
+                    predicts = np.append(predicts, pred_y)
 
                     # loss
                     loss = criterion(out, target)
 
                     epoch_loss += loss.item()
-
+                report = metrics.classification_report_f_r_f1(labels, predicts)
             return epoch_loss / len(val_iter), report
 
     def _validate_2(self, model, val_iter, criterion, tags, tags_map):
