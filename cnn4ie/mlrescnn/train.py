@@ -64,7 +64,7 @@ class Train():
                                  dropout,
                                  PAD_IDX,
                                  max_length,
-                                 use_crf=use_crf,)
+                                 use_crf=use_crf)
 
         # init model weights
         if init:
