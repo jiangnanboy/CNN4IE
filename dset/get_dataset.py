@@ -10,6 +10,7 @@ def build_data_iter(data_catalog,
                     target_words_path,
                     label_words_path,
                     batch_size,
+                    max_length,
                     pretrained_embedding=None):
     '''
     build dataset
@@ -27,13 +28,13 @@ def build_data_iter(data_catalog,
     SOURCE = data.Field(sequential=True, tokenize=tokenize,
                         lower=True, use_vocab=True,
                         pad_token='<pad>', unk_token='<unk>',
-                        batch_first=True, fix_length=100,
+                        batch_first=True, fix_length=max_length,
                         include_lengths=True)  # include_lengths=True为方便之后使用torch的pack_padded_sequence
     
     TARGET = data.Field(sequential=True, tokenize=tokenize,
                         lower=False, use_vocab=True,
                         pad_token='<pad>', unk_token='<unk>',
-                        batch_first=True, fix_length=100,
+                        batch_first=True, fix_length=max_length,
                         include_lengths=True)  # include_lengths=True为方便之后使用torch的pack_padded_sequence
     '''
     LABEL = data.Field(
