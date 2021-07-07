@@ -34,6 +34,7 @@ class Train():
                      kernel_size,
                      dropout,
                      PAD_IDX,
+                     max_length,
                      pretrained_embedding_vocab=None,
                      init=True,
                      use_crf=True):
@@ -62,6 +63,7 @@ class Train():
                                  kernel_size,
                                  dropout,
                                  PAD_IDX,
+                                 max_length,
                                  use_crf=use_crf,)
 
         # init model weights
@@ -88,6 +90,7 @@ class Train():
                    kernel_size,
                    dropout,
                    PAD_IDX,
+                   max_length,
                    model_path,
                    use_crf=True):
         '''
@@ -114,6 +117,7 @@ class Train():
                                  kernel_size,
                                  dropout,
                                  PAD_IDX,
+                                 max_length,
                                  use_crf=use_crf)
         # load model
         if os.path.exists(model_path):
@@ -456,6 +460,7 @@ class Train():
                                                                                                         target_vocab_path,
                                                                                                         label_vocab_path,
                                                                                                         batch_size,
+                                                                                                        max_length,
                                                                                                         pretrained_embedding_path)
                 input_dim = pretrained_embedding_vocab.vectors.shape[0]
                 emb_dim = pretrained_embedding_vocab.vectors.shape[1]
@@ -468,7 +473,8 @@ class Train():
                                                                                        source_vocab_path,
                                                                                        target_vocab_path,
                                                                                        label_vocab_path,
-                                                                                       batch_size)
+                                                                                       batch_size,
+                                                                                       max_length)
 
             # define loss
             if loss_name == 'crf':
@@ -503,6 +509,7 @@ class Train():
                                  kernel_size,
                                  dropout,
                                  PAD_IDX,
+                                 max_length,
                                  pretrained_embedding_vocab,
                                  True,
                                  use_crf)
