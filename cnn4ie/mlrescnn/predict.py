@@ -178,7 +178,7 @@ class Predict():
                                kernel_size,
                                dropout,
                                PAD_IDX,
-                               max_length,
+                               self.max_length,
                                model_path,
                                use_crf=use_crf)
         else:
