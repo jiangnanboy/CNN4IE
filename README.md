@@ -126,6 +126,12 @@ python setup.py install
 
 CNN4IE 的授权协议为 **Apache License 2.0**，可免费用做商业用途。请在产品说明中附加CNN4IE的链接和授权协议。CNN4IE受版权法保护，侵权必究。
 
+## Update
+
+CNN4IE 0.1.0 init commit
+
+CNN4IE 0.1.1 update self.max_len
+
 ## Reference
 
 * [fairseq](https://github.com/facebookresearch/fairseq)
