@@ -19,7 +19,7 @@ except ImportError:
 setup(
     name='CNN4IE',
     author='ShiYan',
-    version='0.1.0',
+    version='0.1.2',
     license='Apache 2.0',
     description='Chinese Information Extraction',
     long_description=readme,

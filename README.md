@@ -23,13 +23,17 @@
 
 ## Model
 ### 模型
-* MultiLayerResCNN(src/mlrescnn)：多层残差CNN(+CRF),此模型利用ConvSeq2Seq中的encoder部分进行多层叠加，后面可接CRF。
+* 1.MultiLayerResCNN(src/mlrescnn)：多层残差CNN(+CRF)，此模型利用ConvSeq2Seq中的encoder部分进行多层叠加，后接CRF。
+* 2.MultiLayerResDSCNN(src/dscnn)：多层残差深度可分离CNN(+CRF)，将模型1中的CNN替换为深度可分离CNN，并进行多层叠加，后接CRF。
+
 #### Usage
-- 相关参数的配置
+- 相关参数的配置config见每个模型文件夹中的config.cfg文件，训练和预测时会加载此文件。
 
-    [config.cfg](cnn4ie/mlrescnn/config.cfg)，在训练或预测时加载此文件的位置。
+- 训练及预测(支持加载预训练的embedding向量)
 
-- 训练(支持加载预训练的embedding向量)
+     1.MultiLayerResCNN(src/mlrescnn)
+     
+     (1).训练
     ```
     from cnn4ie.mlrescnn.train import Train
     train = Train()
@@ -57,7 +61,7 @@
     weighted avg       0.99      0.98      0.98     10000
     ```
       
-- 预测
+    (2).预测
 
     ```
     from cnn4ie.mlrescnn.predict import Predict
@@ -71,7 +75,48 @@
     ```
     [{'start': 7, 'stop': 13, 'word': '安徽省六安市', 'type': 'LOC'}, {'start': 1, 'stop': 4, 'word': '新华社', 'type': 'ORG'}]
     ```
+    2.MultiLayerResDSCNN(src/dscnn)
+    
+    (1).训练
+    ```
+    from cnn4ie.dscnn.train import Train
+    train = Train()
+    train.train_model('config.cfg')
+    ```
+  ```
+  Epoch: 192 | Time: 0m 3s
+	Train Loss: 191.273 | Train PPL: 1.172960293422957e+99
+	 Val. Loss: 533.260 |  Val. PPL: 5.2866207577208172e+188
+	 Val. report:               precision    recall  f1-score   support
+
+           1       0.99      1.00      1.00      4539
+           2       0.98      0.98      0.98      4926
+           3       0.92      0.82      0.87       166
+           4       0.82      0.88      0.85        52
+           5       0.84      0.76      0.80       120
+           6       0.90      0.95      0.92        39
+           7       0.90      0.85      0.88        54
+           8       0.84      0.71      0.77        68
+           9       0.85      0.65      0.74        26
+          10       1.00      0.70      0.82        10
+
+    accuracy                           0.98     10000
+    macro avg       0.91      0.83      0.86     10000
+    weighted avg       0.98      0.98      0.98     10000
+    ```
+    (2).预测
+    ```
+    from cnn4ie.dscnn.predict import Predict
   
+    predict = Predict()
+    predict.load_model_vocab('config.cfg')
+    result = predict.predict('本报北京２月２８日讯记者苏宁报道：八届全国人大常委会第三十次会议今天下午在京闭幕。')
+  
+    print(result)
+    ```
+    ```
+    [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
+    ```
 * 
 * 
 * 
@@ -98,7 +143,7 @@ python setup.py install
 
 ## Dataset
 
-   这里利用data(来自人民日报，识别的是[ORG, PER, LOC, T, O])中的数据进行训练评估，训练及评估结果见examples/mlrescnn，分为带预训练向量和不带预训练向量的训练结果。
+   这里利用data(来自人民日报，识别的是[ORG, PER, LOC, T, O])中的数据进行训练评估，模型1的训练及评估结果（分为带预训练向量和不带预训练向量的训练结果）见examples/mlrescnn（其它模型可自行运行评估）。
     
    预训练embedding向量：[sgns.sogou.char.bz2](https://pan.baidu.com/s/1pUqyn7mnPcUmzxT64gGpSw)
 
@@ -128,9 +173,12 @@ CNN4IE 的授权协议为 **Apache License 2.0**，可免费用做商业用途�
 
 ## Update
 
-CNN4IE 0.1.0 init commit
+(1).CNN4IE 0.1.0 init commit
 
-CNN4IE 0.1.1 update self.max_len
+(2).CNN4IE 0.1.1 update self.max_len
+
+(3).CNN4IE 0.1.2 add new model -> [MultiLayerResDSCNN]
+
 
 ## Reference
 
@@ -138,3 +186,4 @@ CNN4IE 0.1.1 update self.max_len
 * [allennlp](https://github.com/allenai/allennlp)
 * [Convolutional Sequence to Sequence Learning](https://arxiv.org/abs/1705.03122)
 * [Deep Residual Learning for Image Recognition](https://arxiv.org/pdf/1512.03385.pdf)
+* [Xception: Deep Learning with Depthwise Separable Convolutions](https://arxiv.org/pdf/1610.02357.pdf)
