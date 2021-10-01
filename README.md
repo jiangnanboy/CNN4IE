@@ -23,15 +23,15 @@
 
 ## Model
 ### 模型
-* 1.MultiLayerResCNN(src/mlrescnn)：多层残差CNN(+CRF)，此模型利用ConvSeq2Seq中的encoder部分进行多层叠加，后接CRF。
-* 2.MultiLayerResDSCNN(src/dscnn)：多层残差深度可分离CNN(+CRF)，将模型1中的CNN替换为深度可分离CNN，并进行多层叠加，后接CRF。
+* 1.MultiLayerResCNN(cnn4ie/mlrescnn)：多层残差CNN(+CRF)，此模型利用ConvSeq2Seq中的encoder部分进行多层叠加，后接CRF。
+* 2.MultiLayerResDSCNN(cnn4ie/dscnn)：多层残差深度可分离CNN(+CRF)，将模型1中的CNN替换为深度可分离CNN，并进行多层叠加，后接CRF。
 
 #### Usage
 - 相关参数的配置config见每个模型文件夹中的config.cfg文件，训练和预测时会加载此文件。
 
 - 训练及预测(支持加载预训练的embedding向量)
 
-     1.MultiLayerResCNN(src/mlrescnn)
+     1.MultiLayerResCNN(cnn4ie/mlrescnn)
      
      (1).训练
     ```
@@ -75,7 +75,7 @@
     ```
     [{'start': 7, 'stop': 13, 'word': '安徽省六安市', 'type': 'LOC'}, {'start': 1, 'stop': 4, 'word': '新华社', 'type': 'ORG'}]
     ```
-    2.MultiLayerResDSCNN(src/dscnn)
+    2.MultiLayerResDSCNN(cnn4ie/dscnn)
     
     (1).训练
     ```
