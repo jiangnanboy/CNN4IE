@@ -23,8 +23,10 @@
 
 ## Model
 ### 模型
-* 1.MultiLayerResCNN(cnn4ie/mlrescnn)：多层残差CNN(+CRF)，此模型利用ConvSeq2Seq中的encoder部分进行多层叠加，后接CRF。
-* 2.MultiLayerResDSCNN(cnn4ie/dscnn)：多层残差深度可分离CNN(+CRF)，将模型1中的CNN替换为深度可分离CNN，并进行多层叠加，后接CRF。
+* 1.MultiLayerResCNN(cnn4ie/mlrescnn)：多层残差CNN(+CRF)，模型参考和改自论文 [Convolutional Sequence to Sequence Learning](https://arxiv.org/abs/1705.03122) ，后接CRF。
+* 2.MultiLayerResDSCNN(cnn4ie/dscnn)：多层残差深度可分离CNN(+CRF)，模型参考和改自论文 [Xception: Deep Learning with Depthwise Separable Convolutions](https://arxiv.org/pdf/1610.02357.pdf) ，后接CRF。
+* 3.MultiLayerAugmentedCNN(cnn4ie/attention_augmented_cnn)：多层残差注意力增强CNN(+CRF)，模型参考和改自论文 [Attention Augmented Convolutional Networks](https://arxiv.org/pdf/1904.09925.pdf) ，后接CRF。
+* 4.MultiLayerLambdaCNN(cnn4ie/lambda_cnn)：多层残差LambdaCNN(+CRF)，模型参考和改自论文 [LambdaNetworks: Modeling long-range Interactions without Attention](https://openreview.net/forum?id=xTJEN-ggl1b) ，后接CRF。
 
 #### Usage
 - 相关参数的配置config见每个模型文件夹中的config.cfg文件，训练和预测时会加载此文件。
@@ -117,6 +119,91 @@
     ```
     [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
     ```
+    3.MultiLayerAugmentedCNN(cnn4ie/attention_augmented_cnn)
+    
+    (1).训练
+    ```
+    from cnn4ie.attention_augmented_cnn.train import Train
+    train = Train()
+    train.train_model('config.cfg')
+    ```
+  ```
+  Epoch: 192 | Time: 0m 3s
+        Train Loss: 185.204 | Train PPL: 2.711303579086953e+80
+         Val. Loss: 561.592 |  Val. PPL: 7.877783034926193e+243
+         Val. report:               precision    recall  f1-score   support
+
+           1       0.99      1.00      1.00      4539
+           2       0.98      0.99      0.98      4926
+           3       0.96      0.77      0.85       166
+           4       0.81      0.85      0.83        52
+           5       0.88      0.71      0.78       120
+           6       0.90      0.90      0.90        39
+           7       0.90      0.85      0.88        54
+           8       0.85      0.69      0.76        68
+           9       1.00      0.42      0.59        26
+          10       1.00      0.50      0.67        10
+
+    accuracy                           0.98     10000
+    macro avg       0.93      0.77      0.82     10000
+    weighted avg       0.98      0.98      0.98     10000
+    ```
+    (2).预测
+    ```
+    from cnn4ie.attention_augmented_cnn.predict import Predict
+  
+    predict = Predict()
+    predict.load_model_vocab('config.cfg')
+    result = predict.predict('本报北京２月２８日讯记者苏宁报道：八届全国人大常委会第三十次会议今天下午在京闭幕。')
+  
+    print(result)
+    ```
+    ```
+    [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
+    ```
+  4.MultiLayerLambdaCNN(cnn4ie/lambda_cnn)
+    
+    (1).训练
+    ```
+    from cnn4ie.lambda_cnn.train import Train
+    train = Train()
+    train.train_model('config.cfg')
+    ```
+  ```
+  Epoch: 197 | Time: 0m 2s
+        Train Loss: 198.344 | Train PPL: 1.3800537707438322e+86
+         Val. Loss: 668.780 |  Val. PPL: 2.8022239331403918e+290
+         Val. report:               precision    recall  f1-score   support
+
+           1       0.99      1.00      1.00      4539
+           2       0.98      0.98      0.98      4926
+           3       0.80      0.78      0.79       166
+           4       0.89      0.90      0.90        52
+           5       0.86      0.77      0.81       120
+           6       0.90      0.92      0.91        39
+           7       0.81      0.87      0.84        54
+           8       0.88      0.75      0.81        68
+           9       0.93      0.54      0.68        26
+          10       1.00      0.70      0.82        10
+
+    accuracy                           0.98     10000
+    macro avg       0.90      0.82      0.85     10000
+    weighted avg       0.98      0.98      0.98     10000
+    ```
+    (2).预测
+    ```
+    from cnn4ie.lambda_cnn.predict import Predict
+  
+    predict = Predict()
+    predict.load_model_vocab('config.cfg')
+    result = predict.predict('本报北京２月２８日讯记者苏宁报道：八届全国人大常委会第三十次会议今天下午在京闭幕。')
+  
+    print(result)
+    ```
+    ```
+    [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
+    ```
+  
 * 
 * 
 * 
@@ -177,7 +264,9 @@ CNN4IE 的授权协议为 **Apache License 2.0**，可免费用做商业用途�
 
 (2).CNN4IE 0.1.1 update self.max_len
 
-(3).CNN4IE 0.1.2 add new model -> [MultiLayerResDSCNN]
+(3).CNN4IE 0.1.2 update new model -> [MultiLayerResDSCNN]
+
+(4).CNN4IE 0.1.3 update new model -> [MultiLayerAugmentedCNN],[MultiLayerLambdaCNN]
 
 
 ## Reference
@@ -187,3 +276,6 @@ CNN4IE 的授权协议为 **Apache License 2.0**，可免费用做商业用途�
 * [Convolutional Sequence to Sequence Learning](https://arxiv.org/abs/1705.03122)
 * [Deep Residual Learning for Image Recognition](https://arxiv.org/pdf/1512.03385.pdf)
 * [Xception: Deep Learning with Depthwise Separable Convolutions](https://arxiv.org/pdf/1610.02357.pdf)
+* [Attention Augmented Convolutional Networks](https://arxiv.org/pdf/1904.09925.pdf)
+* [LambdaNetworks: Modeling long-range Interactions without Attention](https://openreview.net/forum?id=xTJEN-ggl1b)
+
