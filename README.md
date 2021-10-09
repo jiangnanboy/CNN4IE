@@ -23,10 +23,10 @@
 
 ## Model
 ### 模型
-* 1.MultiLayerResCNN(cnn4ie/mlrescnn)：多层残差CNN(+CRF)，模型参考和改自论文 [Convolutional Sequence to Sequence Learning](https://arxiv.org/abs/1705.03122) ，后接CRF。
-* 2.MultiLayerResDSCNN(cnn4ie/dscnn)：多层残差深度可分离CNN(+CRF)，模型参考和改自论文 [Xception: Deep Learning with Depthwise Separable Convolutions](https://arxiv.org/pdf/1610.02357.pdf) ，后接CRF。
-* 3.MultiLayerAugmentedCNN(cnn4ie/attention_augmented_cnn)：多层残差注意力增强CNN(+CRF)，模型参考和改自论文 [Attention Augmented Convolutional Networks](https://arxiv.org/pdf/1904.09925.pdf) ，后接CRF。
-* 4.MultiLayerLambdaCNN(cnn4ie/lambda_cnn)：多层残差LambdaCNN(+CRF)，模型参考和改自论文 [LambdaNetworks: Modeling long-range Interactions without Attention](https://openreview.net/forum?id=xTJEN-ggl1b) ，后接CRF。
+* 1.MultiLayerResCNN(cnn4ie/mlrescnn)：多层残差CNN(+CRF)，模型参考 [Convolutional Sequence to Sequence Learning](https://arxiv.org/abs/1705.03122) ，后接CRF。
+* 2.MultiLayerResDSCNN(cnn4ie/dscnn)：多层残差深度可分离CNN(+CRF)，模型参考 [Xception: Deep Learning with Depthwise Separable Convolutions](https://arxiv.org/pdf/1610.02357.pdf) ，后接CRF。
+* 3.MultiLayerAugmentedCNN(cnn4ie/attention_augmented_cnn)：多层残差注意力增强CNN(+CRF)，模型参考 [Attention Augmented Convolutional Networks](https://arxiv.org/pdf/1904.09925.pdf) ，后接CRF。
+* 4.MultiLayerLambdaCNN(cnn4ie/lambda_cnn)：多层残差LambdaCNN(+CRF)，模型参考 [LambdaNetworks: Modeling long-range Interactions without Attention](https://openreview.net/forum?id=xTJEN-ggl1b) ，后接CRF。
 
 #### Usage
 - 相关参数的配置config见每个模型文件夹中的config.cfg文件，训练和预测时会加载此文件。
