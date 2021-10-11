@@ -23,10 +23,12 @@
 
 ## Model
 ### 模型
-* 1.MultiLayerResCNN(cnn4ie/mlrescnn)：多层残差CNN(+CRF)，模型参考 [Convolutional Sequence to Sequence Learning](https://arxiv.org/abs/1705.03122) ，后接CRF。
-* 2.MultiLayerResDSCNN(cnn4ie/dscnn)：多层残差深度可分离CNN(+CRF)，模型参考 [Xception: Deep Learning with Depthwise Separable Convolutions](https://arxiv.org/pdf/1610.02357.pdf) ，后接CRF。
-* 3.MultiLayerAugmentedCNN(cnn4ie/attention_augmented_cnn)：多层残差注意力增强CNN(+CRF)，模型参考 [Attention Augmented Convolutional Networks](https://arxiv.org/pdf/1904.09925.pdf) ，后接CRF。
-* 4.MultiLayerLambdaCNN(cnn4ie/lambda_cnn)：多层残差LambdaCNN(+CRF)，模型参考 [LambdaNetworks: Modeling long-range Interactions without Attention](https://openreview.net/forum?id=xTJEN-ggl1b) ，后接CRF。
+* 1.MultiLayerResCNN(cnn4ie/mlrescnn)：多层残差CNN(+CRF)， [Convolutional Sequence to Sequence Learning](https://arxiv.org/abs/1705.03122) 。
+* 2.MultiLayerResDSCNN(cnn4ie/dscnn)：多层残差深度可分离depthwise_separable_convolutionCNN(+CRF)， [Xception: Deep Learning with Depthwise Separable Convolutions](https://arxiv.org/pdf/1610.02357.pdf) 。
+* 3.MultiLayerAugmentedCNN(cnn4ie/attention_augmented_cnn)：多层残差注意力增强CNN(+CRF)， [Attention Augmented Convolutional Networks](https://arxiv.org/pdf/1904.09925.pdf) 。
+* 4.MultiLayerLambdaCNN(cnn4ie/lambda_cnn)：多层残差LambdaCNN(+CRF)， [LambdaNetworks: Modeling long-range Interactions without Attention](https://openreview.net/forum?id=xTJEN-ggl1b) 。
+* 5.MultiLayerResLWCNN(cnn4ie/lcnn)：多层残差轻量LightweightCNN(+CRF)， [Pay Less Attention with Lightweight and Dynamic Convolutions](https://arxiv.org/pdf/1901.10430.pdf) 。
+* 6.MultiLayerResDYCNN(cnn4ie/dcnn)：多层残差动态DynamicCNN(+CRF)， [Pay Less Attention with Lightweight and Dynamic Convolutions](https://arxiv.org/pdf/1901.10430.pdf) 。
 
 #### Usage
 - 相关参数的配置config见每个模型文件夹中的config.cfg文件，训练和预测时会加载此文件。
@@ -203,6 +205,90 @@
     ```
     [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
     ```
+  5.MultiLayerResLWCNN(cnn4ie/lcnn)
+    
+    (1).训练
+    ```
+    from cnn4ie.lcnn.train import Train
+    train = Train()
+    train.train_model('config.cfg')
+    ```
+  ```
+  Epoch: 190 | Time: 0m 4s
+        Train Loss: 195.472 | Train PPL: 7.807223255192846e+84
+         Val. Loss: 453.642 |  Val. PPL: 1.0328983269312897e+197
+         Val. report:               precision    recall  f1-score   support
+
+           1       0.99      1.00      1.00      5925
+           2       0.99      0.98      0.98      5501
+           3       0.90      0.85      0.87       174
+           4       0.72      0.93      0.81        57
+           5       0.92      0.81      0.86       122
+           6       0.82      0.91      0.86        44
+           7       0.84      0.85      0.85        62
+           8       0.92      0.77      0.84        71
+           9       0.66      0.81      0.72        31
+          10       0.91      0.77      0.83        13
+
+   accuracy                           0.98     12000
+   macro avg       0.86      0.87      0.86     12000
+   weighted avg       0.98      0.98      0.98     12000
+    ```
+    (2).预测
+    ```
+    from cnn4ie.lcnn.predict import Predict
+  
+    predict = Predict()
+    predict.load_model_vocab('config.cfg')
+    result = predict.predict('本报北京２月２８日讯记者苏宁报道：八届全国人大常委会第三十次会议今天下午在京闭幕。')
+  
+    print(result)
+    ```
+    ```
+    [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
+    ```
+  6.MultiLayerResDYCNN(cnn4ie/dcnn)
+    
+    (1).训练
+    ```
+    from cnn4ie.dcnn.train import Train
+    train = Train()
+    train.train_model('config.cfg')
+    ```
+  ```
+  Epoch: 192 | Time: 0m 4s
+        Train Loss: 182.916 | Train PPL: 2.7491663642617552e+79
+         Val. Loss: 463.782 |  Val. PPL: 2.618555606950152e+201
+         Val. report:               precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00      5925
+           2       0.99      0.98      0.98      5501
+           3       0.86      0.86      0.86       174
+           4       0.80      0.93      0.86        57
+           5       0.84      0.79      0.81       122
+           6       0.83      0.89      0.86        44
+           7       0.83      0.87      0.85        62
+           8       0.88      0.75      0.81        71
+           9       0.92      0.71      0.80        31
+          10       1.00      0.85      0.92        13
+
+   accuracy                           0.98     12000
+   macro avg       0.89      0.86      0.88     12000
+   weighted avg       0.98      0.98      0.98     12000
+    ```
+    (2).预测
+    ```
+    from cnn4ie.dcnn.predict import Predict
+  
+    predict = Predict()
+    predict.load_model_vocab('config.cfg')
+    result = predict.predict('本报北京２月２８日讯记者苏宁报道：八届全国人大常委会第三十次会议今天下午在京闭幕。')
+  
+    print(result)
+    ```
+    ```
+    [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
+    ```
   
 * 
 * 
@@ -266,7 +352,9 @@ CNN4IE 的授权协议为 **Apache License 2.0**，可免费用做商业用途�
 
 (3).CNN4IE 0.1.2 update new model -> [MultiLayerResDSCNN]
 
-(4).CNN4IE 0.1.3 update new model -> [MultiLayerAugmentedCNN],[MultiLayerLambdaCNN]
+(4).CNN4IE 0.1.3 update new model -> [MultiLayerAugmentedCNN]、[MultiLayerLambdaCNN]
+
+(5).CNN4IE 0.1.4 update new model -> [MultiLayerResLWCNN]、[MultiLayerResDYCNN]
 
 
 ## Reference
@@ -278,4 +366,8 @@ CNN4IE 的授权协议为 **Apache License 2.0**，可免费用做商业用途�
 * [Xception: Deep Learning with Depthwise Separable Convolutions](https://arxiv.org/pdf/1610.02357.pdf)
 * [Attention Augmented Convolutional Networks](https://arxiv.org/pdf/1904.09925.pdf)
 * [LambdaNetworks: Modeling long-range Interactions without Attention](https://openreview.net/forum?id=xTJEN-ggl1b)
+* [Pay Less Attention with Lightweight and Dynamic Convolutions](https://arxiv.org/pdf/1901.10430.pdf)
+* https://github.com/leaderj1001/LambdaNetworks
+* https://github.com/leaderj1001/Attention-Augmented-Conv2d
+* https://github.com/pytorch/fairseq
 
