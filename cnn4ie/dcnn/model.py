@@ -1,202 +1,163 @@
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
-import pdb
+import torch.nn as nn
+from cnn4ie.util import crf
+from cnn4ie.dcnn.dynamic_conv import DynamicConv1dTBC
 
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-class Attention1d(nn.Module):
-    def __init__(self, in_planes, ratio, K, temperature, init_weight=True):
+
+
+class Encoder(nn.Module):
+    def __init__(self, emb_dim, hid_dim, n_layers, kernel_size, dropout):
         '''
-
-        :param in_planes:
-        :param ratio:
-        :param K:
-        :param temperature:
-        :param init_weight:
-        '''
-        super(Attention1d, self).__init__()
-        assert temperature % 3 == 1
-        self.avgpool = nn.AdaptiveAvgPool1d(1)
-        if in_planes != 3:
-            hidden_planes = int(in_planes * ratio) + 1
-        else:
-            hidden_planes = K
-        self.fc1 = nn.Conv1d(in_planes, hidden_planes, 1, bias=False)
-        #self.bn = nn.BatchNorm2d(hidden_planes)
-        self.fc2 = nn.Conv1d(hidden_planes, K, 1, bias=True)
-        self.temperature = temperature
-        if init_weight:
-            self._initialize_weights()
-
-    def _initialize_weights(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv1d):
-                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
-                if m.bias is not None:
-                    nn.init.constant_(m.bias, 0)
-            if isinstance(m, nn.BatchNorm2d):
-                nn.init.constant_(m.weight, 1)
-                nn.init.constant_(m.bias, 0)
-
-    def update_temperature(self):
-        if self.temperature != 1:
-            self.temperature -= 3
-            print('change temperature to :', str(self.temperature))
-
-    def forward(self, x):
-        x = self.avgpool(x)
-        x = self.fc1(x)
-        x = F.relu(x)
-        x = self.fc2(x).view(x.size(0), -1)
-        return F.softmax(x/self.temperature, 1)
-
-class DynamicConv1d(nn.Module):
-    def __init__(self, in_planes, out_planes, kernel_size, ratio=0.25, stride=1, padding=0, dilation=1, groups=1, bias=True, K=4, temperature=34, init_weight=True):
-        '''
-
-        :param in_planes:
-        :param out_planes:
+        define encoder
+        :param emb_dim:
+        :param hid_dim:
+        :param n_layers:
         :param kernel_size:
-        :param ratio:
-        :param stride:
-        :param padding:
-        :param dilation:
-        :param groups:
-        :param bias:
-        :param K:
-        :param temperature:
-        :param init_weight:
+        :param dropout:
         '''
-        super(DynamicConv1d, self).__init__()
-        assert in_planes % groups == 0
-        self.in_planes = in_planes
-        self.out_planes = out_planes
-        self.kernel_size = kernel_size
-        self.stride = stride
-        self.padding = padding
-        self.dilation = dilation
-        self.groups = groups
-        self.bias = bias
-        self.K = K
-        self.attention = Attention1d(in_planes, ratio, K, temperature)
+        super(Encoder, self).__init__()
 
-        self.weight = nn.Parameter(torch.randn(K, out_planes, in_planes//groups, kernel_size), requires_grad=True)
-        if bias:
-            self.bias = nn.Parameter(torch.Tensor(K, out_planes))
-        else:
-            self.bias = None
-        if init_weight:
-            self._initialize_weights()
+        # for kernel in kernel_size:
+        assert kernel_size % 2 == 1, 'kernel size must be odd!'  # kernel is odd, which is convenient for PAD processing on both sides of the sequence
 
-    def _initialize_weights(self):
-        for i in range(self.K):
-            nn.init.kaiming_uniform_(self.weight[i])
+        self.scale = torch.sqrt(torch.FloatTensor([0.5])).to(DEVICE)  # the variance of the entire network does not change significantly
 
-    def update_temperature(self):
-        self.attention.update_temperature()
+        self.emb2hid = nn.Linear(emb_dim, hid_dim)  # fc: emb_dim -> hid_dim
+        self.hid2emb = nn.Linear(hid_dim, emb_dim)  # fc: hid_dim -> emb_dim
 
-    def forward(self, x): # 将batch视作维度变量，进行组卷积，因为组卷积的权重是不同的，动态卷积的权重也是不同的
-        softmax_attention = self.attention(x)
-        batch_size, in_planes, height = x.size()
-        x = x.view(1, -1, height, ) # 转为一个维度进行组卷积
-        weight = self.weight.view(self.K, -1)
+        # convolution block
 
-        # 动态卷积的权重的生成，生成的是batch_size个卷积参数(每个参数不同)
-        aggregate_weight = torch.mm(softmax_attention, weight).view(-1, self.in_planes, self.kernel_size, )
-        if self.bias is not None:
-            aggregate_bias = torch.mm(softmax_attention, self.bias).view(-1)
-            output = F.conv1d(x, weight=aggregate_weight, bias=aggregate_bias, stride=self.stride, padding=self.padding, dilation=self.dilation, groups=self.groups*batch_size)
-        else:
-            output = F.conv1d(x, weight=aggregate_weight, bias=None, stride=self.stride, padding=self.padding, dilation=self.dilation, groups=self.groups*batch_size)
+        self.convs = nn.ModuleList([DynamicConv1dTBC(input_size=hid_dim,
+                                                    out_dim=2 * hid_dim, # the dimension of convolution output，2*hid_dim -> GLU activation function
+                                                    kernel_size=kernel_size,
+                                                    padding_l=(kernel_size - 1) // 2,# padding zero for both side of the sequence, keeping the dimension does't change
+                                                    num_heads=4,
+                                                    weight_dropout=dropout)
+                                    for _ in range(n_layers)]) # convolution layer
 
-        output = output.view(batch_size, self.out_planes, output.size(-1))
+        self.dropout = nn.Dropout(dropout)
+
+        #self.BN = nn.BatchNorm1d()
+
+    def forward(self, encoder_output):
+        # encoder_output:[batch_size, src_len, emb_dim]
+
+        # emb_dim -> hid_dim, as the input of convolution layers
+        conv_input = self.emb2hid(encoder_output)  # [batch_size, src_len, hid_dim]
+        # change dimension，convolve the last dimension of input
+        conv_input = conv_input.permute(1, 0, 2)  # [src_len, batch_size, hid_dim]
+
+        # convolution block
+        for i, conv in enumerate(self.convs):
+            conved = conv(self.dropout(conv_input))  # [src_len, batch_size, 2 * out_dim]
+
+            #conved = self.BN(conved) # [batch_size, 2*hid_dim, src_len]
+
+            # GLU activation function
+            conved = F.glu(conved, dim=-1)  # [src_len, batch_size, out_dim]
+
+            # residual connection
+            conved = (conved + conv_input) * self.scale  # [src_len, batch_size, out_dim]
+
+            # input of the next convolution layer
+            conv_input = conved
+
+        # hid_dim -> emb_dim，as the output of convolution block
+        conved = self.hid2emb(conved.permute(1, 0, 2))  # [batch_size, src_len, emb_dim]
+
+        # residual connection，as the joint output feature of encoder
+        combined = (conved + encoder_output) * self.scale  # [batch_size, src_len, emb_dim]
+
+        return conved, combined
+
+class MultiLayerResDYCNN(nn.Module):
+    def __init__(self, input_dim, output_dim, emb_dim, hid_dim, cnn_layers, encoder_layers, kernel_size, dropout, PAD_IDX, max_length=100, use_crf = True):
+        '''
+        define berc model
+        :param input_dim:
+        :param output_dim:
+        :param emb_dim:
+        :param hid_dim:
+        :param cnn_layers:
+        :param encoder_layers:
+        :param kernel_size:
+        :param dropout:
+        :param padding_idx:
+        :param max_length:
+        '''
+        super(MultiLayerResDYCNN, self).__init__()
+
+        self.tok_embedding = nn.Embedding(input_dim, emb_dim, padding_idx=PAD_IDX)  # token embedding
+        self.pos_embedding = nn.Embedding(max_length, emb_dim, padding_idx=PAD_IDX)  # position embedding
+
+        self.encoder = nn.ModuleList([Encoder(emb_dim, hid_dim, cnn_layers, kernel_size, dropout)
+                                      for _ in range(encoder_layers)])
+        self.dropout = nn.Dropout(dropout)
+        self.fc_out = nn.Linear(emb_dim, output_dim)
+        self.crf = crf.CRF(output_dim, batch_first=True)
+        self.use_crf = use_crf
+
+    def forward(self, token_tensor):
+        '''
+        :param token_tensor: [batch_size, src_len]
+        :return:
+        '''
+        # token, position embedding
+        tok_embedded = self.tok_embedding(token_tensor)  # [batch_size, src_len, emb_dim]
+        # 构建位置tensor -> [batch_size, src_len]，位置序号从(0)开始到(src_len-1)
+        position = torch.arange(0, token_tensor.shape[1]).unsqueeze(0).repeat(token_tensor.shape[0], 1).to(DEVICE)
+        pos_embedded = self.pos_embedding(position.long())  # [batch_size, src_len, emb_dim]
+
+        # token embedded + pos_embedded
+        embedded = self.dropout(tok_embedded + pos_embedded)  # [batch_size, src_len, emb_dim]
+        encoder_output = embedded
+
+        # encoder block
+        for i, encoder in enumerate(self.encoder):
+            # encoding
+            conved, encoder_output = encoder(self.dropout(encoder_output))  # [batch_size, src_len, emb_dim]
+
+        # pooling, predict class of the entire sentence
+        # encoder_output = F.avg_pool1d(encoder_output.permute(0, 2, 1), encoder_output.shape[1]).squeeze(2)  # [batch_size, emb_dim]
+        # output = self.fc_out(encoder_output)  # [batch_size, output_dim]
+
+        # fc outuput
+        output = self.fc_out(encoder_output) # [batch_size, src_len, output_dim]
+
+        if self.use_crf:
+            # crf
+            output = self.crf.decode(output)
         return output
 
+    def log_likelihood(self, source, target):
+        '''
+        :param source: [batch_size, src_len]
+        :param target: [batch_size, src_len]
+        :return:
+        '''
+        # token, position embedding
+        tok_embedded = self.tok_embedding(source)  # [batch_size, src_len, emb_dim]
+        # 构建位置tensor -> [batch_size, src_len]，位置序号从(0)开始到(src_len-1)
+        position = torch.arange(0, source.shape[1]).unsqueeze(0).repeat(source.shape[0], 1).to(DEVICE)
+        pos_embedded = self.pos_embedding(position.long())  # [batch_size, src_len, emb_dim]
 
-'''
-class Attention2d(nn.Module):
-    def __init__(self, in_planes, ratio, K, temperature, init_weight=True):
-        super(Attention2d, self).__init__()
-        assert temperature % 3 == 1
-        self.avgpool = nn.AdaptiveAvgPool2d(1)
-        if in_planes != 3:
-            hidden_planes = int(in_planes * ratio) # 这边是为了做一个bottleneck结构
-        else:
-            hidden_planes = K
-        self.fc1 = nn.Conv2d(in_planes, hidden_planes, 1, bias=False)
-        self.fc2 = nn.Conv2d(hidden_planes, K, 1, bias=False)
-        self.temperature = temperature
-        if init_weight:
-            self._initialize_weights()
+        # token embedded + pos_embedded
+        embedded = self.dropout(tok_embedded + pos_embedded)  # [batch_size, src_len, emb_dim]
+        encoder_output = embedded
 
-    def _initialize_weights(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d): # conv2d初始化参数，fc是否需要
-                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
-                if m.bias is not None:
-                    nn.init.constant_(m.bias, 0) # 直接初始化bias为0
+        # encoder block
+        for i, encoder in enumerate(self.encoder):
+            # encoding
+            conved, encoder_output = encoder(self.dropout(encoder_output))  # [batch_size, src_len, emb_dim]
 
-    def update_temperature(self):
-        if self.temperature != 1:
-            self.temperature -= 3
-            print('change temperature to:', str(self.temperature))
+        # pooling, predict class of the entire sentence
+        # encoder_output = F.avg_pool1d(encoder_output.permute(0, 2, 1), encoder_output.shape[1]).squeeze(2)  # [batch_size, emb_dim]
+        # output = self.fc_out(encoder_output)  # [batch_size, output_dim]
 
-    def forward(self, x):
-        x = self.avgpool(x)
-        pdb.set_trace()
-        x = self.fc1(x)
-        x = F.relu(x)
-        x = self.fc2(x).view(x.size(0), -1)
-        return F.softmax(x / self.temperature, 1)
+        # sequence labeling
+        outputs = self.fc_out(encoder_output)  # [batch_size, src_len, output_dim]
 
-class DynamicConv2d(nn.Module):
-    def __init__(self, in_planes, out_planes, kernel_size, ratio=0.25, stride=1, padding=0, dilation=1, groups=1, bias=True, K=4, temperature=34, init_weight=True):
-        super(DynamicConv2d, self).__init__()
-        assert in_planes % groups == 0
-        self.in_planes = in_planes
-        self.out_planes = out_planes
-        self.kernel_size = kernel_size
-        self.stride = stride
-        self.padding = padding
-        self.dilation = dilation
-        self.groups = groups
-        self.bias = bias
-        self.K = K
-        self.attention = Attention2d(in_planes, ratio, K, temperature)
-
-        self.weight = nn.Parameter(torch.Tensor(K, out_planes, in_planes//groups, kernel_size, kernel_size), requires_grad=True)
-        if bias:
-            self.bias = nn.Parameter(torch.Tensor(K, out_planes))
-        else:
-            self.bias = None
-        if init_weight:
-            self._initialize_weights()
-
-    def _initialize_weights(self):
-        for i in range(self.K):
-            nn.init.kaiming_uniform_(self.weight[i])
-
-    def update_temperature(self):
-        self.attention.update_temperature()
-
-    def forward(self, x):
-        softmax_attention = self.attention(x) # [batch_size, K]
-        batch_size, in_planes, height, width = x.size()
-        x = x.view(1, -1, height, width)
-        weight = self.weight.view(self.K, -1) # [K, ***]
-        #
-        aggregate_weight = torch.mm(softmax_attention, weight).view(-1, self.in_planes, self.kernel_size, self.kernel_size) # 将batch_size和output_channel两个维度融合，用于后面的分组卷积，
-        if self.bias is not None:
-            aggregate_bias = torch.mm(softmax_attention, self.bias).view(-1) # [batch_size,out_planes] -> [b*o]
-            output = F.conv2d(x, weight=aggregate_weight, bias=aggregate_bias, stride=self.stride, padding=self.padding, dilation=self.dilation, groups=self.groups*batch_size) # 与前面呼应
-            
-            #若groups本身为1，则这里用分组卷积就是把上面的batch_size*output_channel又拆分开
-            #就是把input的x切分为batch_size组，kernel也分为Batch_size组，分别卷积，之后把结果concat起来
-            #这样每个sample对应的都是不同的kernel
-            
-        else:
-            output = F.conv2d(x, weight=aggregate_weight, bias=None, stride=self.stride, padding=self.padding, dilation=self.dilation, groups=self.groups*batch_size)
-        output = output.view(batch_size, self.out_planes, output.size(-2), output.size(-1))
-        return output
-'''
+        return -self.crf(outputs, target)
