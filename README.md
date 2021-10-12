@@ -29,6 +29,7 @@
 * 4.MultiLayerLambdaCNN(cnn4ie/lambda_cnn)：多层残差LambdaCNN(+CRF)， [LambdaNetworks: Modeling long-range Interactions without Attention](https://openreview.net/forum?id=xTJEN-ggl1b) 。
 * 5.MultiLayerResLWCNN(cnn4ie/lcnn)：多层残差轻量LightweightCNN(+CRF)， [Pay Less Attention with Lightweight and Dynamic Convolutions](https://arxiv.org/pdf/1901.10430.pdf) 。
 * 6.MultiLayerResDYCNN(cnn4ie/dcnn)：多层残差动态DynamicCNN(+CRF)， [Pay Less Attention with Lightweight and Dynamic Convolutions](https://arxiv.org/pdf/1901.10430.pdf) 。
+* 7.MultiLayerStdAttnCNN(cnn4ie/stand_alone_self_attention_cnn)：多层残差独立自注意力stand_alone_self_attention_CNN(+CRF)，[Stand-Alone Self-Attention in Vision Models](https://arxiv.org/pdf/1906.05909.pdf) 。
 
 #### Usage
 - 相关参数的配置config见每个模型文件夹中的config.cfg文件，训练和预测时会加载此文件。
@@ -289,7 +290,48 @@
     ```
     [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
     ```
+    7.MultiLayerStdAttnCNN(cnn4ie/stand_alone_self_attention_cnn)
+    
+    (1).训练
+    ```
+    from cnn4ie.stand_alone_self_attention_cnn.train import Train
+    train = Train()
+    train.train_model('config.cfg')
+    ```
+  ```
+  Epoch: 195 | Time: 0m 3s
+        Train Loss: 247.570 | Train PPL: 3.29768182789317e+107
+         Val. Loss: 681.482 |  Val. PPL: 9.20623044303632e+295
+         Val. report:               precision    recall  f1-score   support
+
+           1       0.99      1.00      1.00      4539
+           2       0.99      0.99      0.99      4926
+           3       0.95      0.86      0.90       166
+           4       0.93      0.96      0.94        52
+           5       0.91      0.78      0.84       120
+           6       0.93      0.97      0.95        39
+           7       0.80      0.89      0.84        54
+           8       0.91      0.72      0.80        68
+           9       1.00      0.69      0.82        26
+          10       1.00      0.90      0.95        10
+
+   accuracy                           0.98     10000
+   macro avg       0.94      0.88      0.90     10000
+   weighted avg       0.98      0.98      0.98     10000
+    ```
+    (2).预测
+    ```
+    from cnn4ie.stand_alone_self_attention_cnn.predict import Predict
   
+    predict = Predict()
+    predict.load_model_vocab('config.cfg')
+    result = predict.predict('本报北京２月２８日讯记者苏宁报道：八届全国人大常委会第三十次会议今天下午在京闭幕。')
+  
+    print(result)
+    ```
+    ```
+    [{'start': 19, 'stop': 26, 'word': '全国人大常委会', 'type': 'ORG'}, {'start': 32, 'stop': 36, 'word': ' 今天下午', 'type': 'T'}, {'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}]
+    ```
 * 
 * 
 * 
@@ -356,6 +398,8 @@ CNN4IE 的授权协议为 **Apache License 2.0**，可免费用做商业用途�
 
 (5).CNN4IE 0.1.4 update new model -> [MultiLayerResLWCNN]、[MultiLayerResDYCNN]
 
+(6).CNN4IE 0.1.5 update new model -> [MultiLayerStdAttnCNN]
+
 
 ## Reference
 
@@ -367,7 +411,9 @@ CNN4IE 的授权协议为 **Apache License 2.0**，可免费用做商业用途�
 * [Attention Augmented Convolutional Networks](https://arxiv.org/pdf/1904.09925.pdf)
 * [LambdaNetworks: Modeling long-range Interactions without Attention](https://openreview.net/forum?id=xTJEN-ggl1b)
 * [Pay Less Attention with Lightweight and Dynamic Convolutions](https://arxiv.org/pdf/1901.10430.pdf)
+* [Stand-Alone Self-Attention in Vision Models](https://arxiv.org/pdf/1906.05909.pdf)
 * https://github.com/leaderj1001/LambdaNetworks
 * https://github.com/leaderj1001/Attention-Augmented-Conv2d
 * https://github.com/pytorch/fairseq
+* https://github.com/leaderj1001/Stand-Alone-Self-Attention
 
