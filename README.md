@@ -41,7 +41,7 @@
 
 - 训练及预测(支持加载预训练的embedding向量)
 
-     #####1.MultiLayerResCNN(cnn4ie/mlrescnn)
+     ##### 1.MultiLayerResCNN(cnn4ie/mlrescnn)
      
      (1).训练
     ```
@@ -85,7 +85,7 @@
     ```
     [{'start': 7, 'stop': 13, 'word': '安徽省六安市', 'type': 'LOC'}, {'start': 1, 'stop': 4, 'word': '新华社', 'type': 'ORG'}]
     ```
-    #####2.MultiLayerResDSCNN(cnn4ie/dscnn)
+    ##### 2.MultiLayerResDSCNN(cnn4ie/dscnn)
     
     (1).训练
     ```
@@ -127,7 +127,7 @@
     ```
     [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
     ```
-    #####3.MultiLayerAugmentedCNN(cnn4ie/attention_augmented_cnn)
+    ##### 3.MultiLayerAugmentedCNN(cnn4ie/attention_augmented_cnn)
     
     (1).训练
     ```
@@ -169,7 +169,7 @@
     ```
     [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
     ```
-    #####4.MultiLayerLambdaCNN(cnn4ie/lambda_cnn)
+    ##### 4.MultiLayerLambdaCNN(cnn4ie/lambda_cnn)
     
     (1).训练
     ```
@@ -211,7 +211,7 @@
     ```
     [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
     ```
-    #####5.MultiLayerResLWCNN(cnn4ie/lcnn)
+    ##### 5.MultiLayerResLWCNN(cnn4ie/lcnn)
     
     (1).训练
     ```
@@ -253,7 +253,7 @@
     ```
     [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
     ```
-    #####6.MultiLayerResDYCNN(cnn4ie/dcnn)
+    ##### 6.MultiLayerResDYCNN(cnn4ie/dcnn)
     
     (1).训练
     ```
@@ -295,7 +295,7 @@
     ```
     [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
     ```
-    #####7.MultiLayerStdAttnCNN(cnn4ie/stand_alone_self_attention_cnn)
+    ##### 7.MultiLayerStdAttnCNN(cnn4ie/stand_alone_self_attention_cnn)
     
     (1).训练
     ```
@@ -337,7 +337,7 @@
     ```
     [{'start': 19, 'stop': 26, 'word': '全国人大常委会', 'type': 'ORG'}, {'start': 32, 'stop': 36, 'word': ' 今天下午', 'type': 'T'}, {'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}]
     ```
-    #####8.MultiLayerCSAttCNN(cnn4ie/channel_spatial_attention_cnn)     
+    ##### 8.MultiLayerCSAttCNN(cnn4ie/channel_spatial_attention_cnn)     
     (1).训练
     ```
     from cnn4ie.channel_spatial_attention_cnn.train import Train
@@ -378,7 +378,7 @@
     ```
     [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]    
     ```
-    #####9.MultiLayerSACNN(cnn4ie/self_attention_cnn)
+    ##### 9.MultiLayerSACNN(cnn4ie/self_attention_cnn)
     (1).训练
     ```
     from cnn4ie.self_attention_cnn.train import Train
@@ -419,7 +419,7 @@
     ```
     [{'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}, {'start': 19, 'stop': 26, 'word': '全国人大常委会', 'type': 'ORG'}, {'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}]
     ```
-    #####10.MultiLayerGroupMixedCNN(cnn4ie/mixed_depthwise_cnn)
+    ##### 10.MultiLayerGroupMixedCNN(cnn4ie/mixed_depthwise_cnn)
     (1).训练
     ```
     from cnn4ie.mixed_depthwise_cnn.train import Train
@@ -460,7 +460,7 @@
     ```
     [{'start': 19, 'stop': 24, 'word': '全国人大常', 'type': 'ORG'}, {'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
     ```
-    #####11.MultiLayerMultiCNN(cnn4ie/multi_cnn)
+    ##### 11.MultiLayerMultiCNN(cnn4ie/multi_cnn)
     (1).训练
     ```
     from cnn4ie.multi_cnn.train import Train
