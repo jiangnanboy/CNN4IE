@@ -23,6 +23,7 @@
 
 ## Model
 ### 模型
+模型里面的conv块部分主要来自后面的paper。
 * 1.MultiLayerResCNN(cnn4ie/mlrescnn)：多层残差CNN(+CRF)， [Convolutional Sequence to Sequence Learning](https://arxiv.org/abs/1705.03122) 。
 * 2.MultiLayerResDSCNN(cnn4ie/dscnn)：多层残差深度可分离depthwise_separable_convolutionCNN(+CRF)， [Xception: Deep Learning with Depthwise Separable Convolutions](https://arxiv.org/pdf/1610.02357.pdf) 。
 * 3.MultiLayerAugmentedCNN(cnn4ie/attention_augmented_cnn)：多层残差注意力增强CNN(+CRF)， [Attention Augmented Convolutional Networks](https://arxiv.org/pdf/1904.09925.pdf) 。
@@ -33,13 +34,14 @@
 * 8.MultiLayerCSAttCNN(cnn4ie/channel_spatial_attention_cnn)，多层残差联合通道和空间注意力channel_spatial_attention_CNN(+CRF)，[CBAM: Convolutional Block Attention Module](https://arxiv.org/pdf/1807.06521.pdf) 。
 * 9.MultiLayerSACNN(cnn4ie/self_attention_cnn)，多层残差self-attention_CNN(+CRF)，[Self-Attention Generative Adversarial Networks](https://arxiv.org/pdf/1805.08318.pdf) 。
 * 10.MultiLayerGroupMixedCNN(cnn4ie/mixed_depthwise_cnn)，多层残差mixed_depthwise_CNN(+CRF)，[MixConv: Mixed Depthwise Convolutional Kernels](https://arxiv.org/pdf/1907.09595.pdf) 。
+* 11.MultiLayerMultiCNN(cnn4ie/multi_cnn)，多层残差multiconv_CNN(+CRF)，[Character-Level Translation with Self-attention](https://arxiv.org/pdf/2004.14788.pdf) 。
 
 #### Usage
 - 相关参数的配置config见每个模型文件夹中的config.cfg文件，训练和预测时会加载此文件。
 
 - 训练及预测(支持加载预训练的embedding向量)
 
-     1.MultiLayerResCNN(cnn4ie/mlrescnn)
+     #####1.MultiLayerResCNN(cnn4ie/mlrescnn)
      
      (1).训练
     ```
@@ -83,7 +85,7 @@
     ```
     [{'start': 7, 'stop': 13, 'word': '安徽省六安市', 'type': 'LOC'}, {'start': 1, 'stop': 4, 'word': '新华社', 'type': 'ORG'}]
     ```
-    2.MultiLayerResDSCNN(cnn4ie/dscnn)
+    #####2.MultiLayerResDSCNN(cnn4ie/dscnn)
     
     (1).训练
     ```
@@ -125,7 +127,7 @@
     ```
     [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
     ```
-    3.MultiLayerAugmentedCNN(cnn4ie/attention_augmented_cnn)
+    #####3.MultiLayerAugmentedCNN(cnn4ie/attention_augmented_cnn)
     
     (1).训练
     ```
@@ -167,7 +169,7 @@
     ```
     [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
     ```
-  4.MultiLayerLambdaCNN(cnn4ie/lambda_cnn)
+    #####4.MultiLayerLambdaCNN(cnn4ie/lambda_cnn)
     
     (1).训练
     ```
@@ -209,7 +211,7 @@
     ```
     [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
     ```
-  5.MultiLayerResLWCNN(cnn4ie/lcnn)
+    #####5.MultiLayerResLWCNN(cnn4ie/lcnn)
     
     (1).训练
     ```
@@ -251,7 +253,7 @@
     ```
     [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
     ```
-  6.MultiLayerResDYCNN(cnn4ie/dcnn)
+    #####6.MultiLayerResDYCNN(cnn4ie/dcnn)
     
     (1).训练
     ```
@@ -293,7 +295,7 @@
     ```
     [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
     ```
-    7.MultiLayerStdAttnCNN(cnn4ie/stand_alone_self_attention_cnn)
+    #####7.MultiLayerStdAttnCNN(cnn4ie/stand_alone_self_attention_cnn)
     
     (1).训练
     ```
@@ -335,7 +337,7 @@
     ```
     [{'start': 19, 'stop': 26, 'word': '全国人大常委会', 'type': 'ORG'}, {'start': 32, 'stop': 36, 'word': ' 今天下午', 'type': 'T'}, {'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}]
     ```
-    8.MultiLayerCSAttCNN(cnn4ie/channel_spatial_attention_cnn)     
+    #####8.MultiLayerCSAttCNN(cnn4ie/channel_spatial_attention_cnn)     
     (1).训练
     ```
     from cnn4ie.channel_spatial_attention_cnn.train import Train
@@ -376,7 +378,7 @@
     ```
     [{'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]    
     ```
-    9.MultiLayerSACNN(cnn4ie/self_attention_cnn)
+    #####9.MultiLayerSACNN(cnn4ie/self_attention_cnn)
     (1).训练
     ```
     from cnn4ie.self_attention_cnn.train import Train
@@ -417,7 +419,7 @@
     ```
     [{'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}, {'start': 19, 'stop': 26, 'word': '全国人大常委会', 'type': 'ORG'}, {'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}]
     ```
-    10.MultiLayerGroupMixedCNN(cnn4ie/mixed_depthwise_cnn)
+    #####10.MultiLayerGroupMixedCNN(cnn4ie/mixed_depthwise_cnn)
     (1).训练
     ```
     from cnn4ie.mixed_depthwise_cnn.train import Train
@@ -458,6 +460,48 @@
     ```
     [{'start': 19, 'stop': 24, 'word': '全国人大常', 'type': 'ORG'}, {'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}, {'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}]
     ```
+    #####11.MultiLayerMultiCNN(cnn4ie/multi_cnn)
+    (1).训练
+    ```
+    from cnn4ie.multi_cnn.train import Train
+    train = Train()
+    train.train_model('config.cfg')
+    ```
+  ```
+  Epoch: 200 | Time: 0m 1s
+        Train Loss: 234.673 | Train PPL: 8.267382310706752e+101
+         Val. Loss: 444.010 |  Val. PPL: 6.779999895568844e+192
+         Val. report:               precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00      4539
+           2       0.98      0.99      0.98      4926
+           3       0.92      0.84      0.88       166
+           4       0.81      0.96      0.88        52
+           5       0.83      0.78      0.81       120
+           6       0.86      0.95      0.90        39
+           7       0.92      0.91      0.92        54
+           8       0.80      0.71      0.75        68
+           9       1.00      0.69      0.82        26
+          10       1.00      0.70      0.82        10
+
+   accuracy                           0.98     10000
+   macro avg       0.91      0.85      0.88     10000
+   weighted avg       0.98      0.98      0.98     10000
+    ```
+    (2).预测
+    ```
+    from cnn4ie.multi_cnn.predict import Predict
+  
+    predict = Predict()
+    predict.load_model_vocab('config.cfg')
+    result = predict.predict('本报北京２月２８日讯记者苏宁报道：八届全国人大常委会第三十次会议今天下午在京闭幕。')
+  
+    print(result)
+    ```
+    ```
+    [{'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}, {'start': 20, 'stop': 25, 'word': '国人大常委', 'type': 'ORG'}, {'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}]
+    ```
+    
 * 
 * 
 * 
@@ -530,6 +574,8 @@ CNN4IE 的授权协议为 **Apache License 2.0**，可免费用做商业用途�
 
 (8).CNN4IE 0.1.7 update new model -> [MultiLayerSACNN]、[MultiLayerGroupMixedCNN]
 
+(9).CNN4IE 0.1.8 update new model -> [MultiLayerMultiCNN]
+
 
 ## Reference
 
@@ -545,6 +591,7 @@ CNN4IE 的授权协议为 **Apache License 2.0**，可免费用做商业用途�
 * [CBAM: Convolutional Block Attention Module](https://arxiv.org/pdf/1807.06521.pdf)
 * [Self-Attention Generative Adversarial Networks](https://arxiv.org/pdf/1805.08318.pdf)
 * [MixConv: Mixed Depthwise Convolutional Kernels](https://arxiv.org/pdf/1907.09595.pdf)
+* [Character-Level Translation with Self-attention](https://arxiv.org/pdf/2004.14788.pdf)
 * https://github.com/leaderj1001/LambdaNetworks
 * https://github.com/leaderj1001/Attention-Augmented-Conv2d
 * https://github.com/pytorch/fairseq
@@ -553,5 +600,6 @@ CNN4IE 的授权协议为 **Apache License 2.0**，可免费用做商业用途�
 * https://github.com/Jongchan/attention-module
 * https://github.com/fastai/fastai2/blob/master/fastai2/layers.py
 * https://github.com/leaderj1001/Mixed-Depthwise-Convolutional-Kernels
+* https://github.com/CharizardAcademy/convtransformer
 
 
