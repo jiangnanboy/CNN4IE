@@ -23,18 +23,19 @@
 
 ## Model
 ### 模型
-模型里面的conv块部分主要来自后面的paper。
+模型里面的conv块部分主要来自后面的paper中的部分模块。
 * 1.MultiLayerResCNN(cnn4ie/mlrescnn)：多层残差CNN(+CRF)， [Convolutional Sequence to Sequence Learning](https://arxiv.org/abs/1705.03122) 。
-* 2.MultiLayerResDSCNN(cnn4ie/dscnn)：多层残差深度可分离depthwise_separable_convolutionCNN(+CRF)， [Xception: Deep Learning with Depthwise Separable Convolutions](https://arxiv.org/pdf/1610.02357.pdf) 。
-* 3.MultiLayerAugmentedCNN(cnn4ie/attention_augmented_cnn)：多层残差注意力增强CNN(+CRF)， [Attention Augmented Convolutional Networks](https://arxiv.org/pdf/1904.09925.pdf) 。
-* 4.MultiLayerLambdaCNN(cnn4ie/lambda_cnn)：多层残差LambdaCNN(+CRF)， [LambdaNetworks: Modeling long-range Interactions without Attention](https://openreview.net/forum?id=xTJEN-ggl1b) 。
-* 5.MultiLayerResLWCNN(cnn4ie/lcnn)：多层残差轻量LightweightCNN(+CRF)， [Pay Less Attention with Lightweight and Dynamic Convolutions](https://arxiv.org/pdf/1901.10430.pdf) 。
-* 6.MultiLayerResDYCNN(cnn4ie/dcnn)：多层残差动态DynamicCNN(+CRF)， [Pay Less Attention with Lightweight and Dynamic Convolutions](https://arxiv.org/pdf/1901.10430.pdf) 。
-* 7.MultiLayerStdAttnCNN(cnn4ie/stand_alone_self_attention_cnn)：多层残差独立自注意力stand_alone_self_attention_CNN(+CRF)，[Stand-Alone Self-Attention in Vision Models](https://arxiv.org/pdf/1906.05909.pdf) 。
-* 8.MultiLayerCSAttCNN(cnn4ie/channel_spatial_attention_cnn)，多层残差联合通道和空间注意力channel_spatial_attention_CNN(+CRF)，[CBAM: Convolutional Block Attention Module](https://arxiv.org/pdf/1807.06521.pdf) 。
-* 9.MultiLayerSACNN(cnn4ie/self_attention_cnn)，多层残差self-attention_CNN(+CRF)，[Self-Attention Generative Adversarial Networks](https://arxiv.org/pdf/1805.08318.pdf) 。
-* 10.MultiLayerGroupMixedCNN(cnn4ie/mixed_depthwise_cnn)，多层残差mixed_depthwise_CNN(+CRF)，[MixConv: Mixed Depthwise Convolutional Kernels](https://arxiv.org/pdf/1907.09595.pdf) 。
-* 11.MultiLayerMultiCNN(cnn4ie/multi_cnn)，多层残差multiconv_CNN(+CRF)，[Character-Level Translation with Self-attention](https://arxiv.org/pdf/2004.14788.pdf) 。
+* 2.MultiLayerResDSCNN(cnn4ie/dscnn)：多层深度可分离depthwise_separable_convolutionCNN(+CRF)， [Xception: Deep Learning with Depthwise Separable Convolutions](https://arxiv.org/pdf/1610.02357.pdf) 。
+* 3.MultiLayerAugmentedCNN(cnn4ie/attention_augmented_cnn)：多层注意力增强CNN(+CRF)， [Attention Augmented Convolutional Networks](https://arxiv.org/pdf/1904.09925.pdf) 。
+* 4.MultiLayerLambdaCNN(cnn4ie/lambda_cnn)：多层LambdaCNN(+CRF)， [LambdaNetworks: Modeling long-range Interactions without Attention](https://openreview.net/forum?id=xTJEN-ggl1b) 。
+* 5.MultiLayerResLWCNN(cnn4ie/lcnn)：多层轻量LightweightCNN(+CRF)， [Pay Less Attention with Lightweight and Dynamic Convolutions](https://arxiv.org/pdf/1901.10430.pdf) 。
+* 6.MultiLayerResDYCNN(cnn4ie/dcnn)：多层动态DynamicCNN(+CRF)， [Pay Less Attention with Lightweight and Dynamic Convolutions](https://arxiv.org/pdf/1901.10430.pdf) 。
+* 7.MultiLayerStdAttnCNN(cnn4ie/stand_alone_self_attention_cnn)：多层独立自注意力stand_alone_self_attention_CNN(+CRF)，[Stand-Alone Self-Attention in Vision Models](https://arxiv.org/pdf/1906.05909.pdf) 。
+* 8.MultiLayerCSAttCNN(cnn4ie/channel_spatial_attention_cnn)，多层联合通道和空间注意力channel_spatial_attention_CNN(+CRF)，[CBAM: Convolutional Block Attention Module](https://arxiv.org/pdf/1807.06521.pdf) 。
+* 9.MultiLayerSACNN(cnn4ie/self_attention_cnn)，多层self-attention_CNN(+CRF)，[Self-Attention Generative Adversarial Networks](https://arxiv.org/pdf/1805.08318.pdf) 。
+* 10.MultiLayerGroupMixedCNN(cnn4ie/mixed_depthwise_cnn)，多层mixed_depthwise_CNN(+CRF)，[MixConv: Mixed Depthwise Convolutional Kernels](https://arxiv.org/pdf/1907.09595.pdf) 。
+* 11.MultiLayerMultiCNN(cnn4ie/multi_cnn)，多层multiconv_CNN(+CRF)，[Character-Level Translation with Self-attention](https://arxiv.org/pdf/2004.14788.pdf) 。
+* 12.MultiLayerMixedAttCNN(cnn4ie/mixed_attention_cnn)，多层混合(全局和局部attention)mixed_attention_cnn，[ConvBERT: Improving BERT with Span-based Dynamic Convolution](https://arxiv.org/pdf/2008.02496.pdf) 。
 
 #### Usage
 - 相关参数的配置config见每个模型文件夹中的config.cfg文件，训练和预测时会加载此文件。
@@ -501,6 +502,47 @@
     ```
     [{'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}, {'start': 20, 'stop': 25, 'word': '国人大常委', 'type': 'ORG'}, {'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}]
     ```
+    ##### 12.MultiLayerMixedAttCNN(cnn4ie/mixed_attention_cnn)
+    (1).训练
+    ```
+    from cnn4ie.mixed_attention_cnn.train import Train
+    train = Train()
+    train.train_model('config.cfg')
+    ```
+  ```
+  Epoch: 250 | Time: 0m 3s
+	Train Loss: 107.790 | Train PPL: 6.497928061494806e+46
+	 Val. Loss: 283.142 |  Val. PPL: 9.269305878179231e+122
+	 Val. report:               precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00      4539
+           2       0.98      0.99      0.99      4926
+           3       0.91      0.84      0.87       166
+           4       0.86      0.98      0.92        52
+           5       0.91      0.78      0.84       120
+           6       0.93      0.97      0.95        39
+           7       0.88      0.91      0.89        54
+           8       0.92      0.72      0.81        68
+           9       1.00      0.65      0.79        26
+          10       1.00      0.80      0.89        10
+
+   accuracy                           0.99     10000
+   macro avg       0.94      0.86      0.89     10000
+   weighted avg       0.99      0.99      0.99     10000
+    ```
+    (2).预测
+    ```
+    from cnn4ie.mixed_attention_cnn.predict import Predict
+  
+    predict = Predict()
+    predict.load_model_vocab('config.cfg')
+    result = predict.predict('本报北京２月２８日讯记者苏宁报道：八届全国人大常委会第三十次会议今天下午在京闭幕。')
+  
+    print(result)
+    ```
+    ```
+    [{'start': 32, 'stop': 36, 'word': '今天下午', 'type': 'T'}, {'start': 2, 'stop': 4, 'word': '北京', 'type': 'LOC'}, {'start': 12, 'stop': 14, 'word': '苏宁', 'type': 'LOC'}] 
+    ```
     
 * 
 * 
@@ -576,6 +618,8 @@ CNN4IE 的授权协议为 **Apache License 2.0**，可免费用做商业用途�
 
 (9).CNN4IE 0.1.8 update new model -> [MultiLayerMultiCNN]
 
+(10).CNN4IE 0.1.9 update new model -> [MultiLayerMixedAttCNN]
+
 
 ## Reference
 
@@ -592,6 +636,7 @@ CNN4IE 的授权协议为 **Apache License 2.0**，可免费用做商业用途�
 * [Self-Attention Generative Adversarial Networks](https://arxiv.org/pdf/1805.08318.pdf)
 * [MixConv: Mixed Depthwise Convolutional Kernels](https://arxiv.org/pdf/1907.09595.pdf)
 * [Character-Level Translation with Self-attention](https://arxiv.org/pdf/2004.14788.pdf)
+* [ConvBERT: Improving BERT with Span-based Dynamic Convolution](https://arxiv.org/pdf/2008.02496.pdf)
 * https://github.com/leaderj1001/LambdaNetworks
 * https://github.com/leaderj1001/Attention-Augmented-Conv2d
 * https://github.com/pytorch/fairseq
@@ -601,5 +646,6 @@ CNN4IE 的授权协议为 **Apache License 2.0**，可免费用做商业用途�
 * https://github.com/fastai/fastai2/blob/master/fastai2/layers.py
 * https://github.com/leaderj1001/Mixed-Depthwise-Convolutional-Kernels
 * https://github.com/CharizardAcademy/convtransformer
+* https://github.com/huggingface/transformers/tree/master/src/transformers/models/convbert
 
 
