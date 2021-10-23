@@ -1,13 +1,8 @@
-#import sys
-#sys.path.append(r'/home/shiyan/project/CNN4IE/')
 
 import torch
 import os
 from configparser import ConfigParser
 import pickle
-
-import sys
-sys.path.append('/home/shiyan/project/CNN4IE/')
 
 from cnn4ie.lcnn.train import Train
 from cnn4ie.util.crf_util import get_tags, format_result

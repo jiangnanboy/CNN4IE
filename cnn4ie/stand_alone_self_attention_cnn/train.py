@@ -9,9 +9,6 @@ from configparser import ConfigParser
 import tqdm
 import numpy as np
 
-import sys
-sys.path.append('/home/shiyan/project/CNN4IE/')
-
 from cnn4ie.stand_alone_self_attention_cnn.model import MultiLayerStdAttnCNN
 from dset.get_dataset import build_data_iter
 from cnn4ie.util.model_util import init_weights, epoch_time

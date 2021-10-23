@@ -1,5 +1,3 @@
-# import sys
-# sys.path.append(r'/home/sy/project/CNN4IE/')
 
 import torch
 import os
